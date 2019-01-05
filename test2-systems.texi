@@ -1,2 +1,0 @@
-@image{test2-1}
-@c eof
