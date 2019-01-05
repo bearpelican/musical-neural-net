@@ -1,13 +1,15 @@
-from fastai.learner import *
+# from fastai.learner import *
 from subprocess import call
 import os, argparse
 import torchtext
 from torchtext import vocab, data
 from torchtext.datasets import language_modeling
-from fastai.rnn_reg import *
-from fastai.rnn_train import *
-from fastai.nlp import *
-from fastai.lm_rnn import *
+# from fastai.rnn_reg import *
+# from fastai.rnn_train import *
+# from fastai.nlp import *
+# from fastai.lm_rnn import *
+from fastai import *
+from fastai.text import *
 from utils import *
 
 import dill as pickle
@@ -130,7 +132,7 @@ def main(model_to_load, training, test, train, gen_size, sample_freq, chordwise,
     
     prompts=load_long_prompts(PATHS["data"]/test) if use_test_prompt else load_long_prompts(PATHS["data"]/train)
     print("Preparing to generate a batch of "+str(generator_bs)+" samples.")    
-    musical_prompts,results=create_generation_batch(model=lm.model, num_words=gen_size,  
+    musical_prompts,results=create_generation_batch(model=lm, num_words=gen_size,  
                                                     bs=generator_bs, bptt=bptt,
                                                     random_choice_frequency=random_freq,
                                                     trunc_size=trunc, prompts=prompts,

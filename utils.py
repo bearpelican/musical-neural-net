@@ -9,12 +9,16 @@ from pyknon.genmidi import Midi
 from pyknon.music import NoteSeq, Note
 import music21
 import random
-from fastai.learner import *
-from fastai.rnn_reg import *
-from fastai.rnn_train import *
-from fastai.nlp import *
-from fastai.lm_rnn import *
-import dill as pickle
+# from fastai.learner import *
+# from fastai.rnn_reg import *
+# from fastai.rnn_train import *
+# from fastai.nlp import *
+# from fastai.lm_rnn import *
+# from fastai import *
+# from fastai.text import *
+# from fastai.text.models import *
+# from fastai.text.learner import *
+# import dill as pickle
 
 
 def create_paths():
@@ -36,22 +40,23 @@ def create_paths():
 
     return PATHS
     
-def train_and_save(learner, lr, epochs, fname, metrics=None):
-    print("\nTraining "+str(fname))
-    learner.fit(lr, 1, wds=1e-6, cycle_len=epochs, use_clr=(32,10), metrics=metrics)
-    print("\nSaving "+str(fname))
-    torch.save(learner.model.state_dict(), fname)
+# def train_and_save(learner, lr, epochs, fname, metrics=None):
+#     print("\nTraining "+str(fname))
+#     learner.fit(lr, 1, wds=1e-6, cycle_len=epochs, use_clr=(32,10), metrics=metrics)
+#     print("\nSaving "+str(fname))
+#     torch.save(learner.model.state_dict(), fname)
 
 
-def load_pretrained_model(model_to_load, PATHS, training, bs):
-    params=pickle.load(open(f'{PATHS["generator"]}/{model_to_load}_params.pkl','rb'))
-    TEXT=pickle.load(open(f'{PATHS["generator"]}/{model_to_load}_text.pkl','rb'))
-    lm = LanguageModel(to_gpu(get_language_model(params["n_tok"], params["em_sz"], params["nh"], 
-                                                    params["nl"], params["pad"])))
-    mod_name=model_to_load+"_"+training+".pth"
-    lm.model.load_state_dict(torch.load(PATHS["generator"]/mod_name)) 
-    lm.model[0].bs=bs
-    return lm, params, TEXT
+# def load_pretrained_model(model_to_load, PATHS, training, bs):
+#     params=pickle.load(open(f'{PATHS["generator"]}/{model_to_load}_params.pkl','rb'))
+#     TEXT=pickle.load(open(f'{PATHS["generator"]}/{model_to_load}_text.pkl','rb'))
+# #     lm = LanguageModel(to_gpu(get_language_model(params["n_tok"], params["em_sz"], params["nh"], 
+# #                                                     params["nl"], params["pad"])))
+#     lm = get_language_model(params["n_tok"], params["em_sz"], params["nh"], params["nl"], params["pad"]).cuda()
+#     mod_name=model_to_load+"_"+training+".pth"
+# #     lm.load_state_dict(torch.load(PATHS["generator"]/mod_name)) 
+#     lm[0].bs=bs
+#     return lm, params, TEXT
 
 def dump_param_dict(PATHS, TEXT, md, bs, bptt, em_sz, nh, nl, model_out):
     d={}
